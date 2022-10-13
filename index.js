@@ -10,9 +10,23 @@ const app = express()
 /* 
   endpoint
 */
-const port = 3000
+const port = parseInt(process.env.PORT) || 3000
 
-app.get('/posts', (request, response) => {
+app.get('/',(req,res) => {
+    try{
+        res.json({
+            status : 200,
+            msg: "Ú are home"
+        })
+    }catch (e){
+        res.json({
+            status : 400,
+            msg: "Err"
+        })
+    }
+})
+
+app.get('/posts', (req, res) => {
     let posts = [
         {
             caption:'Golden Gate Bridge',
@@ -23,9 +37,20 @@ app.get('/posts', (request, response) => {
             location: 'London'
         }
     ]
-  response.send(posts)
+
+    try{
+        res.json({
+            status: 200,
+            results : posts
+        })
+    }catch (e){
+        res.json({
+            status : 400,
+            msg: "Err in post"
+        })
+    }
 })
 
 app.listen(port, () => {
-  console.log(`I love Node.js ${port}`)
+  console.log(`I love Node.js http://localhost:${port}`)
 })
